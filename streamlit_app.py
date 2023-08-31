@@ -1,4 +1,5 @@
 import streamlit as st 
+import streamlit
 
 st.title('My Parents New Healthy Diner')
 
@@ -8,4 +9,4 @@ st.text('🥗 Kale, Spinach & Rocket Smoothie')
 st.text('🐔Hard-Boiled Free-Range Egg')
 st.text('🥑🍞 Avacoda Toast')
 
-streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
+st.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
