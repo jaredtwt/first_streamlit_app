@@ -71,27 +71,22 @@ if st.button('Get Fruit Load List'):
         my_data_rows = get_fruit_load_list() #---- function being called here
         my_cnx.close()
         st.dataframe(my_data_rows) #displays table nicely using st.dataframe
-        add_my_fruit = ''
 
 # Allow end user to add a fruit to the list
 def insert_row_snowflake(new_fruit):
         with my_cnx.cursor() as my_cur:
              my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
              return "Thanks for adding " + new_fruit + " to the list!! <3"
-             
 #text entry box
 try:
-    add_my_fruit = streamlit.text_input('What fruit would you like to add?','')
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?', on_change= '')
     if not add_my_fruit:
         streamlit.error("Please add a fruit")
     else:
         my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
         add_fruit_function_output = insert_row_snowflake(add_my_fruit)
         my_cnx.close()
-        st.header(add_fruit_function_output)
-        
+        st.header(add_fruit_function_output)        
 except URLError as e:
     streamlit.error()
 
-# Add a button to load the fruit
-#if streamlit.button('Get Fruit List'
