@@ -77,9 +77,18 @@ def insert_row_snowflake(new_fruit):
         with my_cnx.cursor() as my_cur:
              my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
              return "Thanks for adding " + new_fruit + " to the list!! <3"
+
+#~~~~~~~~~~~~~~~~ CLear text after submit
+if 'something' not in st.session_state:
+    st.session_state.something = ''
+
+def submit():
+    st.session_state.something = st.session_state.widget
+    st.session_state.widget = ''
+        
 #text entry box
 try:
-    add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?',on_change=submit)
     if not add_my_fruit:
         streamlit.error("Please add a fruit")
     else:
@@ -89,4 +98,7 @@ try:
         st.header(add_fruit_function_output)        
 except URLError as e:
     streamlit.error()
+
+
+st.write(f'Last submission: {st.session_state.something}')
 
