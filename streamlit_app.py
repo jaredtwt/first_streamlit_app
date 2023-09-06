@@ -88,6 +88,7 @@ try:
         add_fruit_function_output = insert_row_snowflake(add_my_fruit)
         my_cnx.close()
         st.header(add_fruit_function_output)
+        add_my_fruit = ''
 except URLError as e:
     streamlit.error()
 
