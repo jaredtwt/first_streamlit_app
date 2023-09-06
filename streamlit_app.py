@@ -76,27 +76,17 @@ if st.button('Get Fruit Load List'):
 def insert_row_snowflake(new_fruit):
         with my_cnx.cursor() as my_cur:
              my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
-             return "Thanks for adding " + new_fruit + " to the list!! <3"
+             return "Thanks for adding " + new_fruit + " to the list!"
 
-#~~~~~~~~~~~~~~~~ CLear text after submit ~~~~~~~~~~~~~~~~~~~~~~~`#
-if 'something' not in st.session_state:
-    st.session_state.something = ''
-
-def submit():
-    st.session_state.something = st.session_state.widget
-    st.session_state.widget = ''
-#~~~~~~~~~~~~~~~~ CLear text after submit ~~~~~~~~~~~~~~~~~~~~~~~`#
-        
+             
 #text entry box
 try:
-    add_my_fruit = streamlit.text_input('What fruit would you like to add?', key='widget', on_change=submit)
-    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-    add_fruit_function_output = insert_row_snowflake(add_my_fruit)
-    my_cnx.close()
-    st.header(add_fruit_function_output)        
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?','')
+    if st.button('Add New Fruit'):
+        my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+        add_fruit_function_output = insert_row_snowflake(add_my_fruit)
+        my_cnx.close()
+        st.header(add_fruit_function_output)
+        
 except URLError as e:
     streamlit.error()
-
-
-
-st.write(f'Last Added Fruit: {st.session_state.something}')
