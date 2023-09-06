@@ -71,6 +71,7 @@ if st.button('Get Fruit Load List'):
         my_data_rows = get_fruit_load_list() #---- function being called here
         my_cnx.close()
         st.dataframe(my_data_rows) #displays table nicely using st.dataframe
+        add_my_fruit = ''
 
 # Allow end user to add a fruit to the list
 def insert_row_snowflake(new_fruit):
@@ -88,7 +89,7 @@ try:
         add_fruit_function_output = insert_row_snowflake(add_my_fruit)
         my_cnx.close()
         st.header(add_fruit_function_output)
-        add_my_fruit = ''
+        
 except URLError as e:
     streamlit.error()
 
