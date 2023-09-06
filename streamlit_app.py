@@ -88,7 +88,7 @@ def submit():
         
 #text entry box
 try:
-    add_my_fruit = streamlit.text_input('What fruit would you like to add?',on_change=submit)
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?', key='widget', on_change=submit)
     if not add_my_fruit:
         streamlit.error("Please add a fruit")
     else:
