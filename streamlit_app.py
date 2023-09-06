@@ -84,5 +84,9 @@ try:
         streamlit.error("Please add a fruit")
     else:
         add_fruit_function_output = insert_row_snowflake(add_my_fruit)
+        st.header("add_fruit_function_output")
 except URLError as e:
     streamlit.error()
+
+# Add a button to load the fruit
+#if streamlit.button('Get Fruit List'
