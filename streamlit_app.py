@@ -38,10 +38,10 @@ streamlit.dataframe(fruits_to_show)
 # output to the screen as a table
 #----------------------------streamlit.dataframe(fruityvice_normalized)
 
-#----------------------------create the repeatable code block (called a function0
+#----------------------------create the repeatable code block (called an API using a function which takes in fruit as an argument and 'requests' package)
 def get_fruityvice_data(this_fruit_choice):
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
-          # take the json version of the response and normalize it
+          # take the json version of the response and normalize it with pandas
         fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
         return fruityvice_normalized
   
@@ -57,25 +57,35 @@ try:
 except URLError as e:
     streamlit.error()
         
-#--------------------------------------------------------------------
+#--------------------------------------------------------------------create a function that will query snowflake table when click on a button
 streamlit.header("The fruit load list contains:")
 #Snowflake-related functions
 def get_fruit_load_list():
         with my_cnx.cursor() as my_cur:
              my_cur.execute("select * from fruit_load_list")
-             return my_cur.fetchall()
+             return my_cur.fetchall() #fetchall means to print all row from the output of the select statement
 
-# Add a button to load the fruit
+# Add a button to load the fruit table
 if st.button('Get Fruit Load List'):
         my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-        my_data_rows = get_fruit_load_list()
-        st.dataframe(my_data_rows)
+        my_data_rows = get_fruit_load_list() #---- function being called here
+        st.dataframe(my_data_rows) #displays table nicely using st.dataframe
 
 #dont run anything past here while we troubleshoot
 streamlit.stop()
-#text entry box
-add_my_fruit = streamlit.text_input('What fruit would you like to add?','Jackfruit')
-streamlit.write('Thanks for adding ', add_my_fruit)
 
-#This will not work correctly, but just go with it for now
-my_cur.execute("insert into fruit_load_list values ('from streamlit')")
+# Allow end user to add a fruit to the list
+def insert_row_snowflake(new_fruit)
+        with my_cnx.cursor() as my_cur:
+             my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
+             return "Thanks for adding" + new_fruit
+             
+#text entry box
+try:
+    add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+    if not add_my_fruit:
+        streamlit.error("Please add a fruit")
+    else:
+        add_fruit_function_output = insert_row_snowflake(add_my_fruit)
+except URLError as e:
+    streamlit.error()
