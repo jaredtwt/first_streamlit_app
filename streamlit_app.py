@@ -99,3 +99,5 @@ try:
         st.header(add_fruit_function_output)        
 except URLError as e:
     streamlit.error()
+
+st.write(f'Last Added Fruit: {st.session_state.something}')
