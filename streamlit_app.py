@@ -90,14 +90,13 @@ def submit():
 #text entry box
 try:
     add_my_fruit = streamlit.text_input('What fruit would you like to add?', key='widget', on_change=submit)
-    if not add_my_fruit:
-        streamlit.error("Please add a fruit")
-    else:
         my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
         add_fruit_function_output = insert_row_snowflake(add_my_fruit)
         my_cnx.close()
         st.header(add_fruit_function_output)        
 except URLError as e:
     streamlit.error()
+
+
 
 st.write(f'Last Added Fruit: {st.session_state.something}')
