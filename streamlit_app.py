@@ -78,13 +78,14 @@ def insert_row_snowflake(new_fruit):
              my_cur.execute("insert into fruit_load_list values ('" + new_fruit + "')")
              return "Thanks for adding " + new_fruit + " to the list!! <3"
 
-#~~~~~~~~~~~~~~~~ CLear text after submit
+#~~~~~~~~~~~~~~~~ CLear text after submit ~~~~~~~~~~~~~~~~~~~~~~~`#
 if 'something' not in st.session_state:
     st.session_state.something = ''
 
 def submit():
     st.session_state.something = st.session_state.widget
     st.session_state.widget = ''
+#~~~~~~~~~~~~~~~~ CLear text after submit ~~~~~~~~~~~~~~~~~~~~~~~`#
         
 #text entry box
 try:
@@ -98,7 +99,3 @@ try:
         st.header(add_fruit_function_output)        
 except URLError as e:
     streamlit.error()
-
-
-st.write(f'Last submission: {st.session_state.something}')
-
